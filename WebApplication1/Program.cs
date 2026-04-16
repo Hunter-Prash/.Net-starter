@@ -1,29 +1,19 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Controllers;
+using WebApplication1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// ✅ 1. REGISTER SERVICES (BEFORE BUILD)
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
+// ✅ 2. BUILD APP
+var app = builder.Build();
+
+// ✅ 3. CONFIGURE PIPELINE
+app.MapControllers();
+
+// ✅ 4. RUN
 app.Run();
