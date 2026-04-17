@@ -7,5 +7,7 @@
         public string Description { get; set; }
         public string State { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; } // Navigation property to the User entity
     }
 }

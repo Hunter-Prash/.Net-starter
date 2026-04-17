@@ -20,7 +20,18 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var data = await _context.Incidents.ToListAsync();
+            //var data = await _context.Incidents.ToListAsync();
+
+            /*
+             EF me 2 tareeke hain join karne ke:
+            1. Navigation (Include) - EF automatically creates a join based on the relationships defined in your model(C# object). You can use the Include method to specify related entities to include in the query results. This is a more convenient and efficient way to retrieve related data.
+
+            2. Manual (Join / Select)- You can write a manual join using LINQ to query the database and retrieve related data. This approach gives you more control over the query but can be more complex and less efficient than using navigation properties.
+            */
+
+            var data = await _context.Incidents
+            .Include(i => i.User)
+             .ToListAsync();
             return Ok(data);
         }
 
@@ -49,6 +60,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var incident = await _context.Incidents.FindAsync(id);
+
             if (incident == null)
             {
                 return NotFound();
