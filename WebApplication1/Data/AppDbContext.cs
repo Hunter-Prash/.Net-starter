@@ -11,7 +11,6 @@ namespace WebApplication1.Data
 
         /*
          By default, EF Core tries to guess your database names. If you have a C# class named Incident, it will look for a database table named Incident.
-
             But databases usually use different naming styles (like incidents with a lowercase 'i', or created_at instead of CreatedAt). This code stops EF Core from guessing and gives it strict, explicit instructions. 
 
              Wat is DB Migration = instructions to update your database ........code → DB sync tool
@@ -29,7 +28,7 @@ namespace WebApplication1.Data
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
-                // 🔥 THIS FIXES YOUR ISSUE
+                // Define the relationship between Incident and User using the UserId foreign key. This tells EF Core that each Incident is associated with one User, and it should use the UserId property to establish this relationship.
                 entity.HasOne(e => e.User)
                       .WithMany() // or .WithMany(u => u.Incidents) if you add that
                       .HasForeignKey(e => e.UserId);
